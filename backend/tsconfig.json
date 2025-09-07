@@ -1,0 +1,8 @@
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "extends": "@tsconfig/node-lts/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist"
+  },
+  "include": ["./src", "./drizzle.config.ts"]
+}
