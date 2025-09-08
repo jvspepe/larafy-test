@@ -4,5 +4,5 @@
   "compilerOptions": {
     "outDir": "./dist"
   },
-  "include": ["./src", "./drizzle.config.ts"]
+  "include": ["src", "./drizzle.config.ts", "src/types/express.d.ts"]
 }
