@@ -23,7 +23,7 @@ Repositório criado para a realização de teste para desenvoledor full stack.
   - Express.js
   - Drizzle ORM
   - Better-Auth
-  - Resend
+  - Resend (funcionalidade de e-mails para recuperação de senhas e validação de e-mails)
   - Zod
 
 - Banco de Dados
