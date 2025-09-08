@@ -1,23 +1,11 @@
-import { Button } from '@/components/ui/button';
-import { auth } from '@/lib/auth';
-import { useNavigate } from 'react-router';
+import { CreateSpreadsheet } from '@/components/create-spreadsheet';
+import { SpreadsheetDisplay } from '../components/spreadsheet-display';
 
 export function Dashboard() {
-  const navigate = useNavigate();
-
-  const handleSignOut = async () => {
-    await auth.signOut();
-    void navigate('/');
-  };
-
   return (
-    <div>
-      <Button
-        onClick={void handleSignOut}
-        type="button"
-      >
-        Sair
-      </Button>
+    <div className="flex flex-col gap-4">
+      <CreateSpreadsheet />
+      <SpreadsheetDisplay />
     </div>
   );
 }

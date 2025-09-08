@@ -1,7 +1,8 @@
-import { Link, useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import z from 'zod';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
 import { auth } from '@/lib/auth';
 import { Button } from '@/components/ui/button';
 import {
@@ -15,42 +16,60 @@ import {
 import { Input } from '@/components/ui/input';
 import { routes } from '@/config/routes';
 
-const signUpSchema = z.object({
-  email: z.email(),
-  password: z.string().min(6),
-});
+const signUpSchema = z
+  .object({
+    password: z.string().min(6),
+    passwordConfirmation: z.string().min(6),
+  })
+  .refine((data) => data.password === data.passwordConfirmation, {
+    message: 'Senhas devem ser iguais',
+  });
 
 type SignUpSchema = z.infer<typeof signUpSchema>;
 
 const defaultValues: SignUpSchema = {
-  email: '',
   password: '',
+  passwordConfirmation: '',
 };
 
-export function SignIn() {
+export function ResetPassword() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const token = searchParams.get('token');
 
   const form = useForm<SignUpSchema>({
     defaultValues,
     resolver: zodResolver(signUpSchema),
   });
 
-  const onSubmit: SubmitHandler<SignUpSchema> = async ({ email, password }) => {
-    await auth.signIn.email(
-      {
-        email,
-        password,
+  const onSubmit: SubmitHandler<SignUpSchema> = async ({ password }) => {
+    if (!token) return;
+    toast.promise(auth.resetPassword({ newPassword: password, token }), {
+      loading: 'Atualizando senha...',
+      success: () => {
+        form.reset();
+        return {
+          type: 'success',
+          richColors: true,
+          message: 'Senha atualizada! Você será redirecionado ao login.',
+          onAutoClose: () => {
+            navigate(routes.signIn);
+          },
+          onDismiss: () => {
+            navigate(routes.signIn);
+          },
+        };
       },
-      {
-        onSuccess: () => {
-          navigate('/dashboard');
-        },
-        onError: (ctx) => {
-          console.error(ctx);
-          form.setError('root', { message: ctx.error.message });
-        },
+      error: () => {
+        return {
+          type: 'error',
+          richColors: true,
+          message: 'Erro ao atualizar senha. Tente novamente.',
+        };
       },
-    );
+    });
+    //
   };
 
   return (
@@ -60,23 +79,6 @@ export function SignIn() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex min-w-80 flex-col gap-4"
         >
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="email"
-                    placeholder="Seu e-mail"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name="password"
@@ -94,31 +96,30 @@ export function SignIn() {
               </FormItem>
             )}
           />
-          <Button
-            asChild
-            variant="link"
-            className="self-end p-0"
-            size="sm"
-          >
-            <Link to={routes.forgotPassword}>Esqueceu a senha?</Link>
-          </Button>
+          <FormField
+            control={form.control}
+            name="passwordConfirmation"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirmar Senha</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="password"
+                    placeholder="Confirmar sua senha"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <Button
             type="submit"
             disabled={form.formState.isSubmitting}
             className="w-full"
           >
-            {form.formState.isSubmitting ? 'Carregando...' : 'Confirmar'}
+            Confirmar
           </Button>
-          <div className="self-center">
-            <span className="text-sm">Não possui uma conta? </span>
-            <Button
-              asChild
-              variant="link"
-              className="p-0"
-            >
-              <Link to={routes.signUp}>Criar</Link>
-            </Button>
-          </div>
         </form>
       </Form>
     </div>

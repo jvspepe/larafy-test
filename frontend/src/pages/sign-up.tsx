@@ -13,6 +13,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { routes } from '@/config/routes';
 
 const signUpSchema = z
   .object({
@@ -52,6 +53,7 @@ export function SignUp() {
         name,
         email,
         password,
+        role: 'user',
       },
       {
         onSuccess: () => {
@@ -154,7 +156,7 @@ export function SignUp() {
               variant="link"
               className="p-0"
             >
-              <Link to="/sign-in">Conectar</Link>
+              <Link to={routes.signIn}>Conectar</Link>
             </Button>
           </div>
         </form>

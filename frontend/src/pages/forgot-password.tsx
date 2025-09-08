@@ -1,7 +1,8 @@
-import { Link, useNavigate } from 'react-router';
+import { Link } from 'react-router';
 import z from 'zod';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
 import { auth } from '@/lib/auth';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,37 +18,43 @@ import { routes } from '@/config/routes';
 
 const signUpSchema = z.object({
   email: z.email(),
-  password: z.string().min(6),
 });
 
 type SignUpSchema = z.infer<typeof signUpSchema>;
 
 const defaultValues: SignUpSchema = {
   email: '',
-  password: '',
 };
 
-export function SignIn() {
-  const navigate = useNavigate();
-
+export function ForgotPassword() {
   const form = useForm<SignUpSchema>({
     defaultValues,
     resolver: zodResolver(signUpSchema),
   });
 
-  const onSubmit: SubmitHandler<SignUpSchema> = async ({ email, password }) => {
-    await auth.signIn.email(
-      {
+  const onSubmit: SubmitHandler<SignUpSchema> = async ({ email }) => {
+    toast.promise(
+      auth.requestPasswordReset({
         email,
-        password,
-      },
+        redirectTo: `http://localhost:5173/reset-password`,
+      }),
       {
-        onSuccess: () => {
-          navigate('/dashboard');
+        loading: 'Enviando e-mail...',
+        success: () => {
+          form.reset();
+          return {
+            type: 'success',
+            richColors: true,
+            message:
+              'E-mail enviado! Feche esta aba e verifique sua caixa de entrada.',
+          };
         },
-        onError: (ctx) => {
-          console.error(ctx);
-          form.setError('root', { message: ctx.error.message });
+        error: () => {
+          return {
+            type: 'error',
+            richColors: true,
+            message: 'Erro ao enviar e-mail. Tente novamente.',
+          };
         },
       },
     );
@@ -65,7 +72,7 @@ export function SignIn() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>E-mail</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -77,31 +84,6 @@ export function SignIn() {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Senha</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="password"
-                    placeholder="Sua senha"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button
-            asChild
-            variant="link"
-            className="self-end p-0"
-            size="sm"
-          >
-            <Link to={routes.forgotPassword}>Esqueceu a senha?</Link>
-          </Button>
           <Button
             type="submit"
             disabled={form.formState.isSubmitting}
@@ -110,13 +92,12 @@ export function SignIn() {
             {form.formState.isSubmitting ? 'Carregando...' : 'Confirmar'}
           </Button>
           <div className="self-center">
-            <span className="text-sm">Não possui uma conta? </span>
             <Button
               asChild
               variant="link"
               className="p-0"
             >
-              <Link to={routes.signUp}>Criar</Link>
+              <Link to={routes.home}>Voltar ao início</Link>
             </Button>
           </div>
         </form>
