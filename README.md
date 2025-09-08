@@ -1,4 +1,4 @@
-Repositório 🆗 para a realização de teste para desenvoledor full stack.
+Repositório criado para a realização de teste para desenvoledor full stack.
 
 # Principais tecnologias utilizadas:
 
