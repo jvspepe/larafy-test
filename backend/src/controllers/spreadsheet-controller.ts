@@ -11,7 +11,7 @@ import {
 export const getSpreadsheet = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  if (!id) return res.status(400).json({ error: "ID is required" });
+  if (!id) return res.status(400).json({ error: "ID é obrigatório" });
 
   const data = await db
     .select()
@@ -20,7 +20,7 @@ export const getSpreadsheet = async (req: Request, res: Response) => {
     .limit(1);
 
   if (!data || data.length === 0)
-    return res.status(404).json({ error: "Not found" });
+    return res.status(404).json({ error: "Não encontrado" });
 
   const [result] = data;
 
@@ -36,7 +36,7 @@ export const getAllSpreadsheets = async (_req: Request, res: Response) => {
     return res.status(200).json(data);
   } catch (error) {
     console.error("getAllSpreadsheets error:", error);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ error: "Erro interno do servidor" });
   }
 };
 
@@ -46,7 +46,7 @@ export const createSpreadsheet = async (req: Request, res: Response) => {
 
     if (!parsed.success) {
       return res.status(400).json({
-        error: "Invalid request body",
+        error: "Corpo da requisição inválido",
         details: z.treeifyError(parsed.error),
       });
     }
@@ -59,12 +59,12 @@ export const createSpreadsheet = async (req: Request, res: Response) => {
       .returning();
 
     return res.status(201).json({
-      message: "Spreadsheet created successfully",
+      message: "Tabela criada com sucesso",
       data: result,
     });
   } catch (err) {
     console.error("createSpreadsheet error:", err);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ error: "Erro interno do servidor" });
   }
 };
 
@@ -73,14 +73,14 @@ export const updateSpreadsheet = async (req: Request, res: Response) => {
     const { id } = req.params;
 
     if (!id) {
-      return res.status(400).json({ error: "ID is required" });
+      return res.status(400).json({ error: "ID é obrigatório" });
     }
 
     const parsed = spreadsheetUpdateSchema.safeParse(req.body);
 
     if (!parsed.success) {
       return res.status(400).json({
-        error: "Invalid request body",
+        error: "Corpo da requisição inválido",
         details: z.treeifyError(parsed.error),
       });
     }
@@ -94,7 +94,7 @@ export const updateSpreadsheet = async (req: Request, res: Response) => {
       .limit(1);
 
     if (!existing || existing.length === 0) {
-      return res.status(404).json({ error: "Spreadsheet not found" });
+      return res.status(404).json({ error: "Tabela não encontrada" });
     }
 
     const [updatedSpreadsheet] = await db
@@ -104,12 +104,12 @@ export const updateSpreadsheet = async (req: Request, res: Response) => {
       .returning();
 
     return res.status(200).json({
-      message: "Spreadsheet updated successfully",
+      message: "Tabela atualizada com sucesso",
       data: updatedSpreadsheet,
     });
   } catch (error) {
     console.error("updateSpreadsheet error:", error);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ error: "Erro interno do servidor" });
   }
 };
 
@@ -118,7 +118,7 @@ export const deleteSpreadsheet = async (req: Request, res: Response) => {
     const { id } = req.params;
 
     if (!id) {
-      return res.status(400).json({ error: "ID is required" });
+      return res.status(400).json({ error: "ID é obrigatório" });
     }
 
     await db.delete(spreadsheets).where(eq(spreadsheets.id, id));
@@ -126,6 +126,6 @@ export const deleteSpreadsheet = async (req: Request, res: Response) => {
     return res.status(200).json({ message: "Tabela excluída com sucesso" });
   } catch (error) {
     console.error("deleteSpreadsheet error:", error);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ error: "Erro interno do servidor" });
   }
 };
