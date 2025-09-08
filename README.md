@@ -1,4 +1,4 @@
-Repositório feito para a realização de teste para desenvoledor full stack.
+Repositório 🆗 para a realização de teste para desenvoledor full stack.
 
 # Principais tecnologias utilizadas:
 
@@ -36,34 +36,34 @@ Escopo Funcional
 
 1. Login e Autenticação:
 
-- [FEITO] Tela de login com usuário e senha.
-- [FEITO] Persistência de sessão após autenticação bem-sucedida.
-- [FEITO] Possibilidade de cadastro de novos usuários.
+- [🆗] Tela de login com usuário e senha.
+- [🆗] Persistência de sessão após autenticação bem-sucedida.
+- [🆗] Possibilidade de cadastro de novos usuários.
 
 2. Tela Principal:
 
-- [FEITO] Exibir uma tabela populada a partir de dados vindos de um banco externo (ex: MySQL, PostgreSQL ou SQLite).
-- [FEITO] Permitir edição inline das células da tabela.
-- [FEITO] Disponibilizar a opção de exportar/baixar os dados em formato .csv ou .xlsx.
+- [🆗] Exibir uma tabela populada a partir de dados vindos de um banco externo (ex: MySQL, PostgreSQL ou SQLite).
+- [🆗] Permitir edição inline das células da tabela.
+- [🆗] Disponibilizar a opção de exportar/baixar os dados em formato .csv ou .xlsx.
 
 3. Banco de Dados Externo:
 
-- [FEITO] Criar uma tabela simples (ex: lista de produtos, clientes ou funcionários).
-- [FEITO] Expor dados por meio de API própria ou acesso direto ao banco.
+- [🆗] Criar uma tabela simples (ex: lista de produtos, clientes ou funcionários).
+- [🆗] Expor dados por meio de API própria ou acesso direto ao banco.
 
 Requisitos Técnicos Mínimos
 
-- [FEITO / Node.js] Framework backend sugerido: Flask, Django, Node.js ou Spring Boot.
-- [FEITO / React.js] Framework frontend sugerido: React, Angular ou Vue.js.
-- [FEITO / Drizzle ORM] Uso de ORM ou queries diretas para manipulação dos dados.
-- [FEITO] Persistência no banco para alterações feitas na tabela.
-- [FEITO] Controle de autenticação (cookies, JWT ou sessões).
+- [🆗 / Node.js] Framework backend sugerido: Flask, Django, Node.js ou Spring Boot.
+- [🆗 / React.js] Framework frontend sugerido: React, Angular ou Vue.js.
+- [🆗 / Drizzle ORM] Uso de ORM ou queries diretas para manipulação dos dados.
+- [🆗] Persistência no banco para alterações feitas na tabela.
+- [🆗] Controle de autenticação (cookies, JWT ou sessões).
 
 Diferenciais (não obrigatórios, mas pontuam):
 
-- [FEITO] Paginação e busca na tabela.
+- [🆗] Paginação e busca na tabela.
 - Validação de campos editados.
-- [FEITO] Upload de arquivos para atualizar os dados(Sobrepor com outro arquivo .csv?).
+- [🆗] Upload de arquivos para atualizar os dados(Sobrepor com outro arquivo .csv?).
 - Dockerfile para facilitar a execução.
 - Deploy em algum serviço gratuito (Heroku, Render, Vercel, Railway, etc.).
 
